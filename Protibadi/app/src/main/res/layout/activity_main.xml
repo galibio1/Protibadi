@@ -47,12 +47,19 @@
         android:layout_gravity="center_horizontal"/>
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Police"
+        android:id="@+id/police"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
         android:id="@+id/setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/getLocationBtn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+
         android:text="Setting"
         android:layout_gravity="center_horizontal"/>
     <WebView

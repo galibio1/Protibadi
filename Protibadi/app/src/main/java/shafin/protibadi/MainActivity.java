@@ -35,20 +35,35 @@ public class MainActivity extends SettingActivity implements LocationListener {
 
     final int SEND_SMS_PERMISSION_REQUEST_CODE = 111;
     private  Button mSendMessageBtn;
-    Button getLocationBtn,setting,call;
+    Button getLocationBtn,setting,call,police;
     TextView locationText;
     double l;
     double n;
     String a;
+      String ll;
+     String nn;
     LocationManager locationManager;
+    Bundle bundle = new Bundle();
+    Bundle b = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //final EditText mPhoneNoEt = (EditText) findViewById(R.id.et_phone_no);
         //final EditText messagetEt = (EditText) findViewById(R.id.et_message);
         mSendMessageBtn = (Button) findViewById(R.id.btn_send_message);
+        police=(Button)findViewById(R.id.police);
+        police.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this, PoliceActivity.class);
+                intent.putExtras(bundle);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
 
         mSendMessageBtn.setEnabled(false);
@@ -110,7 +125,9 @@ public class MainActivity extends SettingActivity implements LocationListener {
             public void onClick(View view) {
 
                 Intent intent=new Intent(MainActivity.this, SettingActivity.class);
+
                 startActivity(intent);
+
 
             }
         });
@@ -187,6 +204,17 @@ public class MainActivity extends SettingActivity implements LocationListener {
         locationText.setText("Latitude: " + location.getLatitude() + "\n Longitude: " + location.getLongitude());
         l=location.getLatitude();
         n=location.getLongitude();
+      ll = Double.toString(l);
+       nn = Double.toString(n);
+        //Create the bundle
+
+        //Add your data to bundle
+        bundle.putString("chatname", ll);
+        b.putString("id",nn);
+
+        //Add the bundle to the intent
+
+
         try {
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
