@@ -28,7 +28,6 @@
         android:text="Get Current Location"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
-
         android:padding="10dp"
         android:id="@+id/getLocationBtn"/>
 
@@ -56,4 +55,10 @@
         android:layout_marginTop="30dp"
         android:text="Setting"
         android:layout_gravity="center_horizontal"/>
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webview">
+
+    </WebView>
 </LinearLayout>

@@ -18,6 +18,9 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -60,6 +63,7 @@ public class MainActivity extends SettingActivity implements LocationListener {
             public void onClick(View view) {
 
                 String message = "My Location is : ("+"http://www.google.com/maps/place/" + l +","+ n+")";
+
                 String phoneNo = getPhone();
                 //Toast.makeText(getApplicationContext(), "This is my Toast message!\n"+a, Toast.LENGTH_LONG).show();
 
@@ -190,6 +194,11 @@ public class MainActivity extends SettingActivity implements LocationListener {
                     addresses.get(0).getAddressLine(1)+", "+addresses.get(0).getAddressLine(2));
             a=locationText.getText() + "\n"+addresses.get(0).getAddressLine(0)+", "+
                     addresses.get(0).getAddressLine(1)+", "+addresses.get(0).getAddressLine(2);
+
+            WebView myWebView = (WebView) findViewById(R.id.webview);
+            myWebView.getSettings().setJavaScriptEnabled(true);
+            myWebView.setWebViewClient(new WebViewClient());
+            myWebView.loadUrl("http://www.google.com/maps/place/"+l+","+n);
         }catch(Exception e)
         {
 
