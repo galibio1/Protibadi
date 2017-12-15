@@ -1,5 +1,4 @@
 package shafin.protibadi;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Bundle;
@@ -32,6 +31,7 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
 
         name = (TextView) findViewById(R.id.editTextName);
         phone = (TextView) findViewById(R.id.editTextPhone);

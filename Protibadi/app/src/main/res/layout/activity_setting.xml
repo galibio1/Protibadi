@@ -93,7 +93,10 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="29dp"
             android:onClick="run"
-            android:text="save" />
+            android:text="save"
+            android:background="@android:color/holo_orange_light"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/textView3"

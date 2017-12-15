@@ -1,5 +1,17 @@
 package shafin.protibadi;
 
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -29,8 +41,8 @@ import android.widget.Toast;
 import java.util.List;
 import java.util.Locale;
 
-
-public class MainActivity extends SettingActivity implements LocationListener {
+public class MainActivity extends SettingActivity
+        implements NavigationView.OnNavigationItemSelectedListener ,LocationListener{
 
 
     final int SEND_SMS_PERMISSION_REQUEST_CODE = 111;
@@ -40,21 +52,48 @@ public class MainActivity extends SettingActivity implements LocationListener {
     double l;
     double n;
     String a;
-      String ll;
-     String nn;
+    String ll;
+    String nn;
     LocationManager locationManager;
     Bundle bundle = new Bundle();
     Bundle b = new Bundle();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        //final EditText mPhoneNoEt = (EditText) findViewById(R.id.et_phone_no);
-        //final EditText messagetEt = (EditText) findViewById(R.id.et_message);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+
+
+
+
         mSendMessageBtn = (Button) findViewById(R.id.btn_send_message);
-        police=(Button)findViewById(R.id.police);
+      /*  police=(Button)findViewById(R.id.police);
         police.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +104,7 @@ public class MainActivity extends SettingActivity implements LocationListener {
             }
         });
 
-
+*/
         mSendMessageBtn.setEnabled(false);
         if(checkPermission(Manifest.permission.SEND_SMS)) {
             mSendMessageBtn.setEnabled(true);
@@ -98,8 +137,21 @@ public class MainActivity extends SettingActivity implements LocationListener {
 
         locationText = (TextView)findViewById(R.id.locationText);
 
-        setting=(Button)findViewById(R.id.setting);
+      /*  setting=(Button)findViewById(R.id.setting);
 
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent=new Intent(MainActivity.this, SettingActivity.class);
+
+                startActivity(intent);
+
+
+            }
+        });
+*/
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -120,17 +172,6 @@ public class MainActivity extends SettingActivity implements LocationListener {
 
 
 
-        setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent=new Intent(MainActivity.this, SettingActivity.class);
-
-                startActivity(intent);
-
-
-            }
-        });
 
         call=(Button)findViewById(R.id.call);
         call.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +182,15 @@ public class MainActivity extends SettingActivity implements LocationListener {
         });
 
 
+
+
+
+
+
+
     }
+
+
 
     private void call() {
 
@@ -185,8 +234,78 @@ public class MainActivity extends SettingActivity implements LocationListener {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent=new Intent(MainActivity.this, SettingActivity.class);
+
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+            Intent intent=new Intent(MainActivity.this, PoliceActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_gallery) {
+            Intent intent=new Intent(MainActivity.this, PoliceNearbyActivity.class);
+            intent.putExtras(bundle);
+            intent.putExtras(b);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_slideshow) {
+            Intent intent=new Intent(MainActivity.this, HospitalNearbyActivity.class);
+            intent.putExtras(bundle);
+            intent.putExtras(b);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_manage) {
+            Intent intent=new Intent(MainActivity.this, SettingActivity.class);
+
+            startActivity(intent);
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
     void getLocation() {
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -197,15 +316,13 @@ public class MainActivity extends SettingActivity implements LocationListener {
         }
     }
 
-
-
     @Override
     public void onLocationChanged(Location location) {
         locationText.setText("Latitude: " + location.getLatitude() + "\n Longitude: " + location.getLongitude());
         l=location.getLatitude();
         n=location.getLongitude();
-      ll = Double.toString(l);
-       nn = Double.toString(n);
+        ll = Double.toString(l);
+        nn = Double.toString(n);
         //Create the bundle
 
         //Add your data to bundle
@@ -234,17 +351,17 @@ public class MainActivity extends SettingActivity implements LocationListener {
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
         Toast.makeText(MainActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderDisabled(String s) {
 
     }
 }
